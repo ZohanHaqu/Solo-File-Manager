@@ -1,0 +1,76 @@
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="CB2EA67D-29E3-4A69-8095-CDFEF66CF131" UpgradeCode="6CF35134-AC69-4247-AF80-53376A7D6FD3" Version="1.0.0.0" Name="Solo File Manager" Manufacturer="Zohan Haque" Language="1033">
+    <Package InstallerVersion="405" InstallScope="perMachine" InstallPrivileges="elevated" Compressed="yes" Manufacturer="Zohan Haque" />
+    <Media Cabinet="media1.cab" Id="1" EmbedCab="yes" />
+    <Icon Id="MyIcon" SourceFile="SoloFM.ico" />
+    <WixVariable Id="WixUIDialogBmp" Value="Wizard\wizard.bmp" />
+    <WixVariable Id="WixUIBannerBmp" Value="Wizard\header.bmp" />
+    <WixVariable Id="WixUILicenseRtf" Value="MIT License.rtf" />
+    <Property Id="ARPPRODUCTICON" Value="MyIcon" />
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="DesktopFolder" Name="Desktop" />
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="MenuAppFolder" Name="TheAppName" />
+      </Directory>
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="MyAppFolder" Name="SoloFM" />
+      </Directory>
+    </Directory>
+    <ComponentGroup Id="RemoveFolders">
+      <ComponentRef Id="Remove.MenuAppFolder" />
+      <ComponentRef Id="Remove.ProgramFilesFolder" />
+    </ComponentGroup>
+    <ComponentGroup Id="SoloFM">
+      <ComponentRef Id="CIdDC6433A7" />
+      <ComponentRef Id="CId35DA267A" />
+      <ComponentRef Id="CSCId24A994F9" />
+      <ComponentRef Id="CSCId8F0DF1A1" />
+      <ComponentRef Id="CId14BDAB04" />
+    </ComponentGroup>
+    <Feature Id="ProductFeature" Title="Solo File Manager" Description="a simple file manager">
+      <ComponentGroupRef Id="RemoveFolders" />
+      <ComponentGroupRef Id="SoloFM" />
+    </Feature>
+    <UIRef Id="WixUI_FeatureTree" />
+    <DirectoryRef Id="ProgramFilesFolder">
+      <Component Id="Remove.ProgramFilesFolder" Guid="8CF885B6-B030-47DA-B53A-24E4CB704E0C">
+        <RemoveFolder Id="ProgramFilesFolder" On="uninstall" />
+        <RegistryValue Root="HKMU" Key="Software\[Manufacturer]\[ProductName]" Type="string" Value="" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="MyAppFolder">
+      <Component Id="CId14BDAB04" Guid="E8D22C5E-830B-4809-82DE-0C031F41FD5D" Win64="no">
+        <File Id="FIdDC668FB0" Name="SoloFileManager.exe" Source="C:\Users\zohan\source\repos\SoloFileManager\SoloFileManager\bin\Release\" />
+        <CreateFolder />
+      </Component>
+      <Component Id="CId35DA267A" Guid="00D596BE-92B8-41CF-8F8B-ABFF7AD15906" Win64="no">
+        <File Id="FIdF8A2AF74" Name="SoloFileManager.exe.config" Source="C:\Users\zohan\source\repos\SoloFileManager\SoloFileManager\bin\Release\" />
+        <CreateFolder />
+      </Component>
+      <Component Id="CIdDC6433A7" Guid="B63C2CE2-7810-48CE-AAF7-9B4B2BDBE829" Win64="no">
+        <File Id="FId2838E69C" Name="SoloFileManager.pdb" Source="C:\Users\zohan\source\repos\SoloFileManager\SoloFileManager\bin\Release\" />
+        <CreateFolder />
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="ProgramMenuFolder">
+      <Component Id="CSCId24A994F9" Guid="DFB37B2F-9A44-4CD5-B933-C2EF367D8BA5">
+        <Shortcut Id="SIdABFE32C2" Name="Solo File Manager" Description="Simple File Manager" Target="[!FIdDC668FB0]" WorkingDirectory="MyAppFolder" Icon="MyIcon" />
+        <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+        <RemoveFolder Id="CSCId24A994F9" Directory="ProgramMenuFolder" On="uninstall" />
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="MenuAppFolder">
+      <Component Id="Remove.MenuAppFolder" Guid="2453D8DF-BE46-4107-BA66-F590790FC1BB">
+        <RemoveFolder Id="MenuAppFolder" On="uninstall" />
+        <RegistryValue Root="HKMU" Key="Software\[Manufacturer]\[ProductName]" Type="string" Value="" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="DesktopFolder">
+      <Component Id="CSCId8F0DF1A1" Guid="6FDA7B12-1979-473C-87C1-EEB1DE7E3A1F">
+        <Shortcut Id="SId7DD5EA9C" Name="Solo File Manager" Description="Simple File Manager" Target="[!FIdDC668FB0]" WorkingDirectory="MyAppFolder" Icon="MyIcon" />
+        <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+        <RemoveFolder Id="CSCId8F0DF1A1" Directory="DesktopFolder" On="uninstall" />
+      </Component>
+    </DirectoryRef>
+  </Product>
+</Wix>
